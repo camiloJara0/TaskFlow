@@ -1,7 +1,8 @@
 import type { User } from '~/types/api'
 import type { ResponseType } from 'ofetch'
 
-const BASE_URL = 'http://localhost:8000/api/v1'
+// const BASE_URL = 'http://localhost:8000/api/v1'
+const BASE_URL = 'https://taskflow.zeus01one/api/v1'
 
 export function useApi() {
   const toast = useToast()

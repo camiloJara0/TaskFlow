@@ -2,6 +2,7 @@
 const props = defineProps<{ email: string }>()
 const emit = defineEmits<{ success: [] }>()
 const loading = ref(false)
+const show = ref(false)
 
 const { form, visibleErrors, touch, submit: validate, setForm } = useFormValidation([
   { key: 'codigo', label: 'Código', required: true, minLength: 6, maxLength: 6, pattern: /^\d{6}$/, patternMessage: 'El código debe ser de 6 dígitos' },
@@ -48,14 +49,27 @@ async function handleSubmit() {
     <UFormField label="Nueva contraseña" :error="visibleErrors.password || false">
       <UInput
         v-model="form.password"
-        type="password"
+        :type="show ? 'text' : 'password'"
         placeholder="Mínimo 8 caracteres"
         size="lg"
         class="w-full"
         autocomplete="new-password"
         @blur="touch('password')"
         @update:model-value="touch('password')"
+      >
+        <template #trailing>
+      <UButton
+        color="neutral"
+        variant="link"
+        size="sm"
+        :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+        :aria-label="show ? 'Hide password' : 'Show password'"
+        :aria-pressed="show"
+        aria-controls="password"
+        @click="show = !show"
       />
+    </template>
+    </UInput>
     </UFormField>
 
     <UFormField label="Confirmar contraseña" :error="visibleErrors.password_confirmation || false">

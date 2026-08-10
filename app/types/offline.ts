@@ -1,6 +1,6 @@
 export type OfflineActionType = 'create' | 'update' | 'delete'
 
-export type OfflineResource = 'task' | 'workspace' | 'team' | 'notification'
+export type OfflineResource = 'task' | 'workspace' | 'team' | 'notification' | 'reunion'
 
 export type OfflineStatus = 'pending' | 'syncing' | 'failed'
 
@@ -27,7 +27,7 @@ export interface OutboxExport {
   items: OutboxItem[]
 }
 
-export const OFFLINE_COLLECTIONS = ['tasks', 'workspaces', 'teams', 'notifications'] as const
+export const OFFLINE_COLLECTIONS = ['tasks', 'workspaces', 'teams', 'notifications', 'reunions'] as const
 
 export type OfflineCollectionName = (typeof OFFLINE_COLLECTIONS)[number]
 
@@ -35,12 +35,14 @@ export const RESOURCE_COLLECTION: Record<OfflineResource, OfflineCollectionName>
   task: 'tasks',
   workspace: 'workspaces',
   team: 'teams',
-  notification: 'notifications'
+  notification: 'notifications',
+  reunion: 'reunions'
 }
 
 export const OFFLINE_COLLECTION_LABELS: Record<OfflineCollectionName, string> = {
   tasks: 'Tareas',
   workspaces: 'Espacios de trabajo',
   teams: 'Equipos',
-  notifications: 'Notificaciones'
+  notifications: 'Notificaciones',
+  reunions: 'Reuniones'
 }

@@ -9,7 +9,8 @@ const filters = [
   { label: 'Todas', id: 'all' },
   { label: 'No leídas', id: 'unread' },
   { label: 'Menciones', id: 'mentions' },
-  { label: 'Comentarios', id: 'comments' }
+  { label: 'Comentarios', id: 'comments' },
+  { label: 'Reuniones', id: 'reunions' }
 ]
 
 const filteredNotifications = computed(() => {
@@ -17,6 +18,7 @@ const filteredNotifications = computed(() => {
   if (activeFilter.value === 'unread') return list.filter(n => !n.leida)
   if (activeFilter.value === 'mentions') return list.filter(n => notificationKind(n.tipo) === 'mencion')
   if (activeFilter.value === 'comments') return list.filter(n => notificationKind(n.tipo) === 'comentario')
+  if (activeFilter.value === 'reunions') return list.filter(n => notificationKind(n.tipo) === 'reunion')
   return list
 })
 
@@ -142,7 +144,7 @@ async function handleRemove(n: Notification) {
           :style="{ animationDelay: `${i * 40}ms` }"
           :class="n.leida
             ? 'glass-card opacity-75 hover:opacity-100'
-            : 'glass-card border-l-[3px] !border-l-blue-500 shadow-blue-500/10'"
+            : 'glass-card border-l-[3px] border-l-blue-500! shadow-blue-500/10'"
           @click="openNotification(n)"
         >
           <div class="relative shrink-0">
@@ -158,7 +160,7 @@ async function handleRemove(n: Notification) {
             </div>
             <div
               v-if="!n.leida"
-              class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full ring-2 ring-white dark:ring-(--ui-bg) animate-pulse"
+              class="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full ring-2 ring-white dark:ring-bg animate-pulse"
             />
           </div>
 

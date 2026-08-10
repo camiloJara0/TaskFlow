@@ -10,7 +10,7 @@ const { subscribed: pushSubscribed, permission: pushPermission, busy: pushBusy, 
 const { fontSize, reducedMotion, backgroundImage, solidTheme } = useAppearance()
 
 const customBg = ref('')
-
+console.log(pushSubscribed)
 const backgroundPresets = [
   { label: 'Aurora (sin imagen)', value: 'p' },
   { label: 'Workspace (predeterminada)', value: 'https://images.pexels.com/photos/7135037/pexels-photo-7135037.jpeg' }
@@ -39,7 +39,7 @@ function setBackgroundImage(value: string) {
 const sections = [
   { label: 'Perfil', id: 'profile', icon: 'i-lucide-user' },
   { label: 'Apariencia', id: 'appearance', icon: 'i-lucide-palette' },
-  { label: 'Integraciones', id: 'integrations', icon: 'i-lucide-plug' },
+  // { label: 'Integraciones', id: 'integrations', icon: 'i-lucide-plug' },
   { label: 'Preferencias', id: 'preferences', icon: 'i-lucide-sliders' },
   { label: 'Sincronización', id: 'sync', icon: 'i-lucide-refresh-cw' }
 ]

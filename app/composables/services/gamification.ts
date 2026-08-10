@@ -4,7 +4,7 @@ export function useGamificationService() {
   const { request } = useApi()
 
   function getProfile() {
-    // return request<ApiResponse<GamificationProfile>>('/gamificacion')
+    return request<ApiResponse<GamificationProfile>>('/gamificacion')
   }
 
   function registerTaskCompletion(tareaId: number) {

@@ -206,3 +206,31 @@ export interface LogroCatalogEntry extends LogroNuevo {
   desbloqueado: boolean
   desbloqueado_en: string | null
 }
+
+/* ---------- Reuniones ---------- */
+
+export type ReunionEstado = 'pendiente' | 'confirmada' | 'en_curso' | 'finalizada' | 'cancelada'
+
+export interface ReunionIntegrante {
+  id: number
+  reunion_id: number
+  usuario_id: number
+  usuario: User
+}
+
+export interface Reunion {
+  id: number
+  espacio_trabajo_id: number | null
+  creador_id: number
+  titulo: string
+  descripcion: string | null
+  estado: ReunionEstado
+  fecha: string
+  hora: string
+  url: string | null
+  archivada: boolean
+  recordatorio_enviado?: boolean
+  espacioTrabajo?: Workspace
+  creador?: User
+  integrantes?: ReunionIntegrante[]
+}

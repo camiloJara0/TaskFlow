@@ -282,7 +282,7 @@ const tabs = [
               @saved="onReminderSaved"
             />
           </div>
-          <div>
+          <!-- <div>
             <label class="text-xs font-medium text-muted mb-1 block">Etiquetas</label>
             <div class="flex flex-wrap gap-1.5">
               <UBadge
@@ -308,7 +308,7 @@ const tabs = [
               :task-id="task.id"
               class="mt-3"
             />
-          </div>
+          </div> -->
         </div>
       </div>
 

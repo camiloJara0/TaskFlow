@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{ success: [] }>()
 const loading = ref(false)
+const show = ref(false)
 
 const { form, visibleErrors, touch, submit: validate, setForm } = useFormValidation([
   { key: 'nombre', label: 'Nombre', required: true, maxLength: 255 },
@@ -59,14 +60,27 @@ async function handleSubmit() {
     <UFormField label="Contraseña" :error="visibleErrors.password || false">
       <UInput
         v-model="form.password"
-        type="password"
+        :type="show ? 'text' : 'password'"
         placeholder="Mínimo 8 caracteres"
         size="lg"
         class="w-full"
         autocomplete="new-password"
         @blur="touch('password')"
         @update:model-value="touch('password')"
+      >
+        <template #trailing>
+      <UButton
+        color="neutral"
+        variant="link"
+        size="sm"
+        :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+        :aria-label="show ? 'Hide password' : 'Show password'"
+        :aria-pressed="show"
+        aria-controls="password"
+        @click="show = !show"
       />
+    </template>
+    </UInput>
       <template v-if="form.password.length > 0" #hint>
         <div class="flex gap-1 mt-1">
           <div

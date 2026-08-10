@@ -1,4 +1,4 @@
-export type NotificationKind = 'comentario' | 'asignacion' | 'recordatorio' | 'cambio_estado' | 'mencion' | 'sistema'
+export type NotificationKind = 'comentario' | 'asignacion' | 'recordatorio' | 'cambio_estado' | 'mencion' | 'reunion' | 'sistema'
 
 export function notificationKind(value: unknown): NotificationKind {
   const v = String(value ?? '').trim().toLowerCase()
@@ -7,6 +7,7 @@ export function notificationKind(value: unknown): NotificationKind {
   if (v === 'recordatorio' || v === 'reminder') return 'recordatorio'
   if (v === 'cambio_estado' || v === 'status' || v === 'cambio') return 'cambio_estado'
   if (v === 'mencion' || v === 'mention') return 'mencion'
+  if (v === 'reunion' || v === 'reunión' || v === 'meeting' || v === 'invitacion' || v === 'invitación') return 'reunion'
   return 'sistema'
 }
 
@@ -17,6 +18,7 @@ export function notificationLabel(value: unknown): string {
     recordatorio: 'Recordatorio',
     cambio_estado: 'Cambio de estado',
     mencion: 'Mención',
+    reunion: 'Reunión',
     sistema: 'Sistema'
   }
   return map[notificationKind(value)]
@@ -49,6 +51,11 @@ export function notificationStyle(value: unknown): { icon: string, color: string
       color: 'text-pink-500',
       bg: 'bg-pink-500/10 ring-pink-500/20'
     },
+    reunion: {
+      icon: 'i-lucide-video',
+      color: 'text-violet-500',
+      bg: 'bg-violet-500/10 ring-violet-500/20'
+    },
     sistema: {
       icon: 'i-lucide-bell',
       color: 'text-slate-500',
@@ -59,7 +66,10 @@ export function notificationStyle(value: unknown): { icon: string, color: string
 }
 
 export function notificationUrl(n: { url?: string | null }): string | null {
-  return n.url || null
+  const url = (n.url || '').trim()
+  if (!url) return null
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) return url
+  return `/${url}`
 }
 
 export function notificationTimeAgo(value: unknown): string {

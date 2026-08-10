@@ -3,10 +3,10 @@ useAppearance()
 
 useHead({
   meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    { name: 'TaskFlow', content: 'width=device-width, initial-scale=1' }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', href: '/logo.ico' }
   ],
   htmlAttrs: {
     lang: 'es'
@@ -22,6 +22,8 @@ useSeoMeta({
 <template>
   <UApp>
     <NuxtLayout>
+      <NuxtPwaManifest />
+      <NuxtPwaAssets />
       <NuxtPage />
     </NuxtLayout>
   </UApp>

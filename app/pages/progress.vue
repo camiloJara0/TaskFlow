@@ -188,7 +188,7 @@ function playPreview() {
     </div>
 
     <!-- Estadísticas -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+    <!-- <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
       <div class="glass-card rounded-2xl p-4">
         <p class="text-xl font-heading font-bold text-highlighted">
           {{ todayCount }}
@@ -237,7 +237,7 @@ function playPreview() {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Logros -->
     <div class="space-y-5">
@@ -354,7 +354,7 @@ function playPreview() {
           <div
             v-for="a in filteredLocked"
             :key="a.id"
-            class="rounded-2xl p-4 flex items-center gap-3.5 bg-white/30 dark:bg-white/[0.03] border border-dashed border-white/60 dark:border-white/10 opacity-70"
+            class="rounded-2xl p-4 flex items-center gap-3.5 bg-white/30 dark:bg-white/3 border border-dashed border-white/60 dark:border-white/10 opacity-70"
           >
             <div class="w-11 h-11 shrink-0 rounded-xl bg-white/40 dark:bg-white/5 flex items-center justify-center border border-white/60 dark:border-white/10">
               <UIcon

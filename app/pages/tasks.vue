@@ -10,9 +10,11 @@ const viewMode = ref('list')
 const searchQuery = ref('')
 const filterPriority = ref('all')
 const showTaskForm = ref(false)
+const showReunionForm = ref(false)
 const offlineStore = useOfflineStore()
 const tasks = computed(() => (offlineStore.collections.tasks ?? []) as Record<string, any>[])
 const { getAll } = useTasksService()
+const { reunions } = useReunions()
 const { showSuccess } = useApi()
 
 async function fetchTasks() {
@@ -21,7 +23,13 @@ async function fetchTasks() {
 
 onMounted(async () => {
   await offlineStore.loadCollection('tasks', () => getAll())
+  await offlineStore.loadCollection('reunions', () => useReunionsService().getAll())
 })
+
+async function handleReunionSaved() {
+  showReunionForm.value = false
+  await offlineStore.loadCollection('reunions', () => useReunionsService().getAll(), { force: true })
+}
 
 const taskRefreshKey = useState('task-refresh-key', () => 0)
 
@@ -222,9 +230,39 @@ async function confirmBulkDelete() {
                   { label: 'Pendiente', value: 'backlog' },
                   { label: 'Por Hacer', value: 'todo' },
                   { label: 'En progreso', value: 'in_progress' },
+                  { label: 'Revisión', value: 'review' },
                   { label: 'Completado', value: 'done' }
                 ]"
-                @saved="handleSaved" @cancelled="showTaskForm = false"
+                @saved="handleSaved"
+                @cancelled="showTaskForm = false"
+              />
+            </div>
+          </template>
+        </UModal>
+        <UModal
+          v-model:open="showReunionForm"
+          :ui="{ content: 'glass-panel rounded-lg overflow-hidden' }"
+        >
+          <UButton
+            label="Nueva reunión"
+            icon="i-lucide-video"
+            size="sm"
+            color="neutral"
+            variant="subtle"
+            class="rounded-xl"
+          />
+          <template #header>
+            <div>
+              <h3 class="text-base font-heading font-semibold">
+                Nueva reunión
+              </h3>
+            </div>
+          </template>
+          <template #body>
+            <div class="p-4">
+              <formsReunionForm
+                @saved="handleReunionSaved"
+                @cancelled="showReunionForm = false"
               />
             </div>
           </template>
@@ -293,7 +331,7 @@ async function confirmBulkDelete() {
                 size="sm"
                 color="primary"
                 variant="solid"
-                class="w-full"
+                class="w-full flex justify-center"
                 :disabled="!bulkAssignValue"
                 @click="bulkAssign"
               />
@@ -508,7 +546,9 @@ async function confirmBulkDelete() {
     <CalendarView
       v-else-if="viewMode === 'calendar'"
       :tasks="tasks"
+      :reunions="reunions"
       @open-task="(t) => emit('open-task', t)"
+      @open-reunion="(r) => navigateTo(`/reuniones/${r.id}`)"
     />
     <GanttView
       v-else-if="viewMode === 'gantt'"

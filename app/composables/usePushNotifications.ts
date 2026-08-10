@@ -39,6 +39,8 @@ export function usePushNotifications() {
       const sw = await navigator.serviceWorker.ready
       const sub = await sw.pushManager.getSubscription()
       subscribed.value = !!sub
+
+      console.log(sub)
     } catch {
       subscribed.value = false
     }

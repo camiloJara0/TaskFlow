@@ -7,7 +7,7 @@ const props = defineProps<{
 const {getAll} = useTeamsService()
 const emit = defineEmits<{ saved: [data: any]; cancelled: [] }>()
 const loading = ref(false)
-const teams = ref([])
+const teams = ref<{ label: string, value: string }[]>([])
 
 const { form, visibleErrors, touch, submit: validate, setForm } = useFormValidation([
   { key: 'nombre', label: 'Nombre', required: true, maxLength: 255 },

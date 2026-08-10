@@ -7,6 +7,17 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt'
   ],
 
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest'
+        }
+      ]
+    }
+  },
+  
   imports: {
     dirs: [
       'composables/services'

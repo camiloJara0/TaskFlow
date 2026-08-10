@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{ success: [] }>()
 const loading = ref(false)
+const show = ref(false)
 
 const { form, visibleErrors, touch, submit: validate, setForm } = useFormValidation([
   { key: 'email', label: 'Email', required: true, isEmail: true },
@@ -38,17 +39,30 @@ async function handleSubmit() {
       />
     </UFormField>
 
-    <UFormField label="Contraseñala" :error="visibleErrors.password || false">
+    <UFormField label="Contraseña" :error="visibleErrors.password || false">
       <UInput
         v-model="form.password"
-        type="password"
+        :type="show ? 'text' : 'password'"
         placeholder="••••••••"
         size="lg"
         class="w-full"
         autocomplete="current-password"
         @blur="touch('password')"
         @update:model-value="touch('password')"
-      />
+      >
+        <template #trailing>
+          <UButton
+            color="neutral"
+            variant="link"
+            size="sm"
+            :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+            :aria-label="show ? 'Hide password' : 'Show password'"
+            :aria-pressed="show"
+            aria-controls="password"
+            @click="show = !show"
+          />
+        </template>  
+      </UInput>
     </UFormField>
 
     <div class="flex items-center justify-between">
