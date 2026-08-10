@@ -114,7 +114,7 @@ class TareaController extends Controller
             }
 
             DB::commit();
-            return response()->json(['success' => true, 'data' => $tarea->load(['estado', 'etiquetas', 'responsable']), 'message' => 'Tarea creada'], 201);
+            return response()->json(['success' => true, 'data' => $tarea->load(['etiquetas', 'responsable']), 'message' => 'Tarea creada'], 201);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Error al crear tarea: ' . $e->getMessage()], 500);
@@ -123,7 +123,7 @@ class TareaController extends Controller
 
     public function show($id)
     {
-        $tarea = Tarea::with(['proyecto', 'lista', 'creador', 'responsable', 'estado', 'etiquetas', 'subtareas', 'comentarios.usuario', 'comentarios.reacciones', 'archivos', 'checklists', 'dependenciasPadre.tareaPadre', 'dependenciasHija.tareaHija', 'recordatorios'])
+        $tarea = Tarea::with(['proyecto', 'lista', 'creador', 'responsable', 'etiquetas', 'subtareas', 'comentarios.usuario', 'comentarios.reacciones', 'archivos', 'checklists', 'dependenciasPadre.tareaPadre', 'dependenciasHija.tareaHija', 'recordatorios'])
             ->findOrFail($id);
         return response()->json(['success' => true, 'data' => $tarea]);
     }
@@ -159,13 +159,14 @@ class TareaController extends Controller
                 if ($key !== 'etiquetas' && $tarea->$key !== $value) {
                     $old = $tarea->$key;
                     $tarea->$key = $value;
-                    if (in_array($key, ['prioridad', 'estado_id', 'responsable_id'])) {
-                        $labels = ['prioridad' => 'prioridad', 'estado_id' => 'estado', 'responsable_id' => 'responsable'];
-                        $label = isset($labels[$key]) ? $labels[$key] : $key;
-                        $cambios[] = 'Cambió ' . $label;
+                    if (in_array($key, ['prioridad', 'estado', 'responsable_id'])) {
+                        $labels = ['prioridad' => 'prioridad', 'estado' => 'estado', 'responsable_id' => 'responsable'];
+                        // $label = isset($labels[$key]) ? $labels[$key] : $key;
+                        $cambios[] = 'Cambió ' . $labels[$key];
                     }
                 }
             }
+
             $tarea->save();
 
             if ($request->has('etiquetas')) {
@@ -214,7 +215,7 @@ class TareaController extends Controller
             ]);
 
             DB::commit();
-            return response()->json(['success' => true, 'data' => $tarea->load(['estado', 'etiquetas', 'responsable']), 'message' => 'Tarea actualizada']);
+            return response()->json(['success' => true, 'data' => $tarea->load(['etiquetas', 'responsable']), 'message' => 'Tarea actualizada']);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Error al actualizar tarea'], 500);

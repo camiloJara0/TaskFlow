@@ -85,4 +85,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Gamificacion::class, 'usuario_id');
     }
+
+    public function reunionesCreadas()
+    {
+        return $this->hasMany(Reunion::class, 'creador_id');
+    }
+
+    public function reunionesInvitado()
+    {
+        return $this->belongsToMany(Reunion::class, 'reunion_integrantes', 'id_usuario', 'id_reunion')
+            ->withTimestamps();
+    }
 }

@@ -27,6 +27,7 @@ use App\Http\Controllers\AuditoriaController;
 use App\Http\Controllers\MiembroEquipoController;
 use App\Http\Controllers\GamificacionController;
 use App\Http\Controllers\PreferenciaController;
+use App\Http\Controllers\ReunionController;
 
 // Rutas públicas (con throttle)
 Route::post('/v1/register', [UserController::class, 'register'])->middleware('throttle:5,1');
@@ -171,6 +172,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/v1/plantillas/{plantilla}', [PlantillaController::class, 'show']);
     Route::delete('/v1/plantillas/{plantilla}', [PlantillaController::class, 'destroy']);
     Route::post('/v1/plantillas/{plantilla}/aplicar', [PlantillaController::class, 'aplicar']);
+
+    // Reuniones
+    Route::get('/v1/reuniones', [ReunionController::class, 'index']);
+    Route::post('/v1/reuniones', [ReunionController::class, 'store']);
+    Route::get('/v1/reuniones/{reunion}', [ReunionController::class, 'show']);
+    Route::put('/v1/reuniones/{reunion}', [ReunionController::class, 'update']);
+    Route::delete('/v1/reuniones/{reunion}', [ReunionController::class, 'destroy']);
+    Route::put('/v1/reuniones/{reunion}/cambiar-estado', [ReunionController::class, 'cambiarEstado']);
+    Route::put('/v1/reuniones/{reunion}/archivar', [ReunionController::class, 'toggleArchivar']);
 
     // Push tokens
     Route::post('/v1/push-tokens', [TokenPushController::class, 'store']);
