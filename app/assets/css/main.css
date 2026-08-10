@@ -1,0 +1,564 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap'); */
+
+/* ============================================================
+   DESIGN TOKENS — TaskFlow · Sistema de diseño premium
+   Paleta azul moderna · Estética Apple · Glassmorphism
+   ============================================================ */
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-royal-50: #EEF4FF;
+  --color-royal-100: #DCE7FE;
+  --color-royal-200: #BFD3FE;
+  --color-royal-300: #93B4FD;
+  --color-royal-400: #6090FA;
+  --color-royal-500: #3B6EF6;
+  --color-royal-600: #2563EB;
+  --color-royal-700: #1D4ED8;
+  --color-royal-800: #1E40AF;
+  --color-royal-900: #1E3A8A;
+  --color-royal-950: #172554;
+}
+
+:root {
+  --font-titulo: var(--font-heading);
+  --font-subtitulo: var(--font-heading);
+  --font-text: var(--font-sans);
+
+  --color-fondo: #F2F6FF;
+  --color-sidebar: #FFFFFF;
+  --color-borde: rgba(100, 116, 139, 0.16);
+  --color-texto-principal: #0B1220;
+  --color-texto-secundario: #64748B;
+  --color-primario: #2563EB;
+  --color-exito: #22C55E;
+  --color-advertencia: #F59E0B;
+  --color-error: #EF4444;
+  --color-informacion: #06B6D4;
+
+  --color-dark-fondo: #0A0F1E;
+  --color-dark-sidebar: #0E1526;
+  --color-dark-borde: rgba(148, 163, 184, 0.14);
+  --color-dark-texto-principal: #F8FAFC;
+  --color-dark-texto-secundario: #94A3B8;
+  --color-dark-primario: #3B82F6;
+  --color-dark-exito: #22C55E;
+  --color-dark-advertencia: #FBBF24;
+  --color-dark-error: #F87171;
+  --color-dark-informacion: #22D3EE;
+}
+
+/* ---------- Nuxt UI · superficies (modo claro) ---------- */
+:root {
+  --ui-radius: 0.875rem;
+
+  --ui-bg: rgba(244, 248, 255, 0.82);
+  --ui-bg-muted: rgba(37, 99, 235, 0.045);
+  --ui-bg-elevated: rgba(255, 255, 255, 0.66);
+  --ui-bg-accented: rgba(148, 163, 184, 0.16);
+  --ui-bg-inverted: #0B1220;
+
+  --ui-border: rgba(100, 116, 139, 0.16);
+  --ui-border-muted: rgba(100, 116, 139, 0.12);
+  --ui-border-accented: rgba(100, 116, 139, 0.26);
+  --ui-border-inverted: #0B1220;
+
+  --ui-tertiary: rgba(148, 163, 184, 0.14);
+
+  --ui-text-dimmed: #94A3B8;
+  --ui-text-muted: #64748B;
+  --ui-text-toned: #475569;
+  --ui-text: #334155;
+  --ui-text-highlighted: #0B1220;
+  --ui-text-inverted: #FFFFFF;
+}
+
+/* ---------- Nuxt UI · superficies (modo oscuro) ---------- */
+.dark {
+  --ui-bg: rgba(10, 15, 30, 0.8);
+  --ui-bg-muted: rgba(148, 163, 184, 0.05);
+  --ui-bg-elevated: rgba(255, 255, 255, 0.045);
+  --ui-bg-accented: rgba(255, 255, 255, 0.08);
+  --ui-bg-inverted: #F8FAFC;
+
+  --ui-border: rgba(148, 163, 184, 0.14);
+  --ui-border-muted: rgba(148, 163, 184, 0.10);
+  --ui-border-accented: rgba(148, 163, 184, 0.22);
+  --ui-border-inverted: #F8FAFC;
+
+  --ui-tertiary: rgba(255, 255, 255, 0.06);
+
+  --ui-text-dimmed: #64748B;
+  --ui-text-muted: #94A3B8;
+  --ui-text-toned: #CBD5E1;
+  --ui-text: #E2E8F0;
+  --ui-text-highlighted: #F8FAFC;
+  --ui-text-inverted: #0A0F1E;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+html {
+  background-color: #F2F6FF;
+}
+
+html.dark {
+  background-color: #0A0F1E;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+/* ---------- Fondo ambiente: aurora azul ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 42rem at 12% -8%, rgba(37, 99, 235, 0.13), transparent 62%),
+    radial-gradient(40rem 40rem at 88% 4%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(46rem 46rem at 92% 92%, rgba(6, 182, 212, 0.10), transparent 55%),
+    radial-gradient(34rem 34rem at 8% 88%, rgba(99, 102, 241, 0.10), transparent 55%),
+    radial-gradient(30rem 30rem at 50% 50%, rgba(255, 255, 255, 0.5), transparent 70%);
+}
+
+.dark body::before {
+  background:
+    radial-gradient(42rem 42rem at 12% -8%, rgba(37, 99, 235, 0.16), transparent 62%),
+    radial-gradient(40rem 40rem at 88% 4%, rgba(59, 130, 246, 0.12), transparent 60%),
+    radial-gradient(46rem 46rem at 92% 92%, rgba(6, 182, 212, 0.08), transparent 55%),
+    radial-gradient(34rem 34rem at 8% 88%, rgba(99, 102, 241, 0.10), transparent 55%),
+    radial-gradient(30rem 30rem at 50% 50%, rgba(255, 255, 255, 0.03), transparent 70%);
+}
+
+/* ============================================================
+   TIPOGRAFÍA
+   ============================================================ */
+
+.titulo {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   GLASSMORPHISM
+   ============================================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 8px 32px rgba(30, 64, 175, 0.08),
+    0 1px 2px rgba(30, 64, 175, 0.04);
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 16px 48px rgba(30, 64, 175, 0.12),
+    0 2px 8px rgba(30, 64, 175, 0.05);
+}
+
+.dark .glass-panel {
+  background: rgba(14, 21, 38, 0.72);
+  border-color: rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-sidebar {
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 8px 0 32px rgba(30, 64, 175, 0.05);
+}
+
+.dark .glass-sidebar {
+  background: rgba(14, 21, 38, 0.62);
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass-nav {
+  background: rgba(10, 15, 30, 0.55);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.glass-chip {
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.dark .glass-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   APARIENCIA PERSONALIZADA
+   ============================================================ */
+
+/* ---------- Tamaño de fuente ---------- */
+html[data-font-size='small'] {
+  font-size: 14px;
+}
+
+html[data-font-size='large'] {
+  font-size: 18px;
+}
+
+/* ---------- Animaciones reducidas ---------- */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---------- Tema sólido: superficies Nuxt UI ---------- */
+html[data-solid-theme='true'] {
+  --ui-bg: #ffffff;
+  --ui-bg-muted: #F1F5F9;
+  --ui-bg-elevated: #ffffff;
+  --ui-bg-accented: #E2E8F0;
+  --ui-border: rgba(100, 116, 139, 0.22);
+  --ui-border-muted: rgba(100, 116, 139, 0.16);
+  --ui-border-accented: rgba(100, 116, 139, 0.32);
+  --ui-tertiary: rgba(148, 163, 184, 0.18);
+}
+
+html[data-solid-theme='true'].dark {
+  --ui-bg: #0E1526;
+  --ui-bg-muted: rgba(148, 163, 184, 0.08);
+  --ui-bg-elevated: #111A2E;
+  --ui-bg-accented: rgba(255, 255, 255, 0.08);
+  --ui-border: rgba(148, 163, 184, 0.2);
+  --ui-border-muted: rgba(148, 163, 184, 0.14);
+  --ui-border-accented: rgba(148, 163, 184, 0.3);
+  --ui-tertiary: rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Tema sólido: componentes glass ---------- */
+html[data-solid-theme='true'] .glass-card,
+html[data-solid-theme='true'] .glass-panel,
+html[data-solid-theme='true'] .glass-sidebar,
+html[data-solid-theme='true'] .glass-nav,
+html[data-solid-theme='true'] .glass-chip {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html[data-solid-theme='true'] .glass-card {
+  background: #ffffff;
+  border-color: rgba(100, 116, 139, 0.16);
+  box-shadow:
+    0 8px 32px rgba(30, 64, 175, 0.08),
+    0 1px 2px rgba(30, 64, 175, 0.04);
+}
+
+html[data-solid-theme='true'].dark .glass-card {
+  background: #0E1526;
+  border-color: rgba(148, 163, 184, 0.14);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+html[data-solid-theme='true'] .glass-panel {
+  background: #ffffff;
+  border-color: rgba(100, 116, 139, 0.18);
+  box-shadow:
+    0 16px 48px rgba(30, 64, 175, 0.12),
+    0 2px 8px rgba(30, 64, 175, 0.05);
+}
+
+html[data-solid-theme='true'].dark .glass-panel {
+  background: #111A2E;
+  border-color: rgba(148, 163, 184, 0.14);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+html[data-solid-theme='true'] .glass-sidebar {
+  background: #ffffff;
+  border-color: rgba(100, 116, 139, 0.16);
+  box-shadow: 8px 0 32px rgba(30, 64, 175, 0.05);
+}
+
+html[data-solid-theme='true'].dark .glass-sidebar {
+  background: #0E1526;
+  border-color: rgba(148, 163, 184, 0.14);
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.3);
+}
+
+html[data-solid-theme='true'] .glass-nav {
+  background: #ffffff;
+  border-bottom-color: rgba(100, 116, 139, 0.16);
+}
+
+html[data-solid-theme='true'].dark .glass-nav {
+  background: #0E1526;
+  border-bottom-color: rgba(148, 163, 184, 0.14);
+}
+
+html[data-solid-theme='true'] .glass-chip {
+  background: #ffffff;
+  border-color: rgba(100, 116, 139, 0.18);
+}
+
+html[data-solid-theme='true'].dark .glass-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(148, 163, 184, 0.18);
+}
+
+/* ============================================================
+   ANIMACIONES
+   ============================================================ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ---------- Gamificación ---------- */
+
+@keyframes gamification-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(245, 195, 59, 0.35), 0 0 28px rgba(37, 99, 235, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(245, 195, 59, 0.6), 0 0 44px rgba(37, 99, 235, 0.35);
+  }
+}
+
+@keyframes gamification-glow-strong {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(245, 195, 59, 0.55), 0 0 40px rgba(245, 158, 11, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(245, 195, 59, 0.9), 0 0 64px rgba(245, 158, 11, 0.6);
+  }
+}
+
+.gamification-glow {
+  animation: gamification-glow 3s ease-in-out infinite;
+}
+
+.gamification-glow-strong {
+  animation: gamification-glow-strong 1.6s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* ---------- Página ---------- */
+.page-enter {
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- Transiciones globales ---------- */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, backdrop-filter;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.3);
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.5);
+}
+
+
+/* Aurora */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0b1020;
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: "";
+  position: absolute;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  animation: auroraMove 18s ease-in-out infinite alternate;
+}
+
+.aurora-bg::before {
+  background: radial-gradient(
+    circle,
+    #00ffb3 0%,
+    #00d9ff 45%,
+    transparent 70%
+  );
+  top: -20%;
+  left: -10%;
+}
+
+.aurora-bg::after {
+  background: radial-gradient(
+    circle,
+    #7c3aed 0%,
+    #00d9ff 40%,
+    transparent 70%
+  );
+  bottom: -20%;
+  right: -10%;
+  animation-duration: 24s;
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(10%, -5%) scale(1.15);
+  }
+  100% {
+    transform: translate(-10%, 8%) scale(0.95);
+  }
+}
