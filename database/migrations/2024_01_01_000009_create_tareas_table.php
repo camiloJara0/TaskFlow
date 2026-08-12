@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('creador_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('responsable_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('titulo');
-            $table->text('descripcion')->nullable();
+            $table->jsonb('descripcion')->nullable();
             $table->string('estado')->nullable();
             $table->enum('prioridad', ['Alta', 'Media', 'Baja', 'Urgente'])->default('Media');
             $table->datetime('fecha_inicio')->nullable();

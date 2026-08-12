@@ -38,8 +38,6 @@ class EquipoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'icono' => 'nullable|string|max:50',
-            'color' => 'nullable|string|max:20',
         ]);
 
         DB::beginTransaction();
@@ -87,8 +85,6 @@ class EquipoController extends Controller
         $validated = $request->validate([
             'nombre' => 'sometimes|string|max:255',
             'descripcion' => 'nullable|string',
-            'icono' => 'nullable|string|max:50',
-            'color' => 'nullable|string|max:20',
             'estado' => 'sometimes|string|in:activo,inactivo',
         ]);
 

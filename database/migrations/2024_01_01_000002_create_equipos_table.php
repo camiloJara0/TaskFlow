@@ -12,8 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion')->nullable();
-            $table->string('icono')->nullable();
-            $table->string('color')->nullable();
             $table->foreignId('propietario_id')->constrained('users');
             $table->string('estado')->default('activo');
             $table->timestamps();

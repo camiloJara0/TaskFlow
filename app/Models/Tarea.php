@@ -37,6 +37,7 @@ class Tarea extends Model
         'archivada' => 'boolean',
         'estimacion_horas' => 'decimal:2',
         'horas_invertidas' => 'decimal:2',
+        'descripcion' => 'array',
     ];
 
     public function proyecto()

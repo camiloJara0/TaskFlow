@@ -12,8 +12,6 @@ class Equipo extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'icono',
-        'color',
         'propietario_id',
         'estado',
     ];
