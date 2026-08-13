@@ -70,6 +70,7 @@ class ArchivoController extends Controller
         $archivo = Archivo::findOrFail($id);
         DB::beginTransaction();
         try {
+            $path = parse_url($archivo->url, PHP_URL_PATH);
             $path = str_replace('/storage/', '', $archivo->url);
             Storage::disk('public')->delete($path);
             $archivo->delete();
@@ -101,8 +102,9 @@ class ArchivoController extends Controller
             'objeto_id' => $archivo->id,
             'descripcion' => "Descargó archivo {$archivo->nombre}",
         ]);
+        $path = parse_url($archivo->url, PHP_URL_PATH);
+        $path = str_replace('/storage/', '', $path);
 
-        $path = str_replace('/storage/', '', $archivo->url);
         if (!Storage::disk('public')->exists($path)) {
             return response()->json(['success' => false, 'message' => 'Archivo no encontrado'], 404);
         }
