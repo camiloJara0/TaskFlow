@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -213,13 +214,31 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'nombre' => 'sometimes|string|max:255',
-            'foto' => 'nullable|string|max:255',
+            'archivo' => 'nullable|file|max:102400',
             'zona_horaria' => 'sometimes|string|max:50',
             'idioma' => 'sometimes|string|max:10',
             'tema' => 'sometimes|string|in:claro,oscuro',
         ]);
 
+        unset($validated['archivo']);
+
         $user->update($validated);
+
+        if($request->hasFile('archivo')){
+
+            if ($user->foto) {
+                $oldPath = str_replace('/storage/', '', parse_url($user->foto, PHP_URL_PATH));
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+
+            $file = $request->file('archivo');
+            $path = $file->store('perfiles/' . $user->id, 'public');
+
+            $user->foto = Storage::url($path);
+            $user->save();
+        }
 
         return response()->json([
             'success' => true,
